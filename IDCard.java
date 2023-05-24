@@ -24,6 +24,10 @@ public class IDCard {
             return idenNumber;
       }
 
+      public int getPhoneNumber() {
+            return phoneNumber;
+      }
+
       public String toString() {
             return idenNumber + "," + fullname + "," + sex + "," + birthday + "," + address + "," + phoneNumber;
       }

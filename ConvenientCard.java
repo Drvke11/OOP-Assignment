@@ -40,6 +40,14 @@ public class ConvenientCard implements Payment {
 		balance += amount;
 	}
 
+	public String getIDCard() {
+		return idCard.toString();
+	}
+
+	public int getIdenNumber() {
+		return idCard.getIdenNumber();
+	}
+
 	public String toString() {
 		return idCard + "," + type + "," + balance;
 	}

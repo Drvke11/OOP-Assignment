@@ -39,6 +39,10 @@ public class EWallet implements Payment, Transfer {
 		return false;
 	}
 
+	public int getPhoneNumber() {
+		return phoneNumber;
+	}
+
 	public String toString() {
 		return phoneNumber + "," + balance;
 	}

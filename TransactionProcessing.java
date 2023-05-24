@@ -66,17 +66,127 @@ public class TransactionProcessing {
 
     // Requirement 5
     public ArrayList<IDCard> getCustomersHaveBoth() {
+        ArrayList<IDCard> result = new ArrayList<IDCard>();
+        ArrayList<IDCard> idCardInfo = idcm.getIDCards(); // List of IDInfo read from by IDCard.txt
+        for (IDCard idc : idCardInfo) {
+            int count = 0;
+            for (Payment p : paymentObjects) {
+                if (p instanceof ConvenientCard) {
+                    ConvenientCard temp = (ConvenientCard) p;
+                    if (temp.getIDCard().equals(idc.toString())) {
+                        count++;
+                    }
+                } else if (p instanceof EWallet) {
+                    EWallet temp = (EWallet) p;
+                    if (temp.getPhoneNumber() == idc.getPhoneNumber()) {
+                        count++;
+                    }
+                } else {
+                    BankAccount temp = (BankAccount) p;
+                    if (temp.getAccountNumber() == idc.getIdenNumber()) {
+                        count++;
+                    }
+                }
+            }
+            if (count >= 3) {
+                result.add(idc);
+            }
+        }
+        if (result.size() < 0) {
+            return result;
+        }
         return null;
     }
 
     // Requirement 6
     public void processTopUp(String path) {
-        // code here
+        try {
+            File f = new File(path);
+            Scanner sc = new Scanner(f);
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] components = line.split(",");
+                for (Payment p : paymentObjects) {
+                    if (components[0].equals("CC")) {
+                        if (p instanceof ConvenientCard) {
+                            ConvenientCard temp = (ConvenientCard) p;
+                            if (temp.getIdenNumber() == Integer.parseInt(components[1])) {
+                                temp.topUp((Double.parseDouble(components[2])));
+                            }
+                        }
+                    } else if (components[0].equals("EW")) {
+                        if (p instanceof EWallet) {
+                            EWallet temp = (EWallet) p;
+                            if (temp.getPhoneNumber() == Integer.parseInt(components[1])) {
+                                temp.topUp(Double.parseDouble(components[2]));
+                            }
+                        }
+                    } else {
+                        if (p instanceof BankAccount) {
+                            BankAccount temp = (BankAccount) p;
+                            if (temp.getAccountNumber() == Integer.parseInt(components[1])) {
+                                temp.topUp(Double.parseDouble(components[2]));
+                            }
+                        }
+                    }
+                }
+            }
+            sc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Requirement 7
     public ArrayList<Bill> getUnsuccessfulTransactions(String path) {
-        // code here
+        ArrayList<Bill> result = new ArrayList<Bill>();
+        try {
+            File f = new File(path);
+            Scanner sc = new Scanner(f);
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] components = line.split(",");
+                for (Payment p : paymentObjects) {
+                    if (components[3].equals("CC")) {
+                        if (p instanceof ConvenientCard) {
+                            ConvenientCard temp = (ConvenientCard) p;
+                            if (temp.getIdenNumber() == Integer.parseInt(components[4])) {
+                                if (!temp.pay(Double.parseDouble(components[1]))) {
+                                    result.add(new Bill(Integer.parseInt(components[0]),
+                                            Double.parseDouble(components[1]), components[2]));
+                                }
+                            }
+                        }
+                    } else if (components[3].equals("EW")) {
+                        if (p instanceof EWallet) {
+                            EWallet temp = (EWallet) p;
+                            if (temp.getPhoneNumber() == Integer.parseInt(components[4])) {
+                                if (!temp.pay(Double.parseDouble(components[1]))) {
+                                    result.add(new Bill(Integer.parseInt(components[0]),
+                                            Double.parseDouble(components[1]), components[2]));
+                                }
+                            }
+                        }
+                    } else {
+                        if (p instanceof BankAccount) {
+                            BankAccount temp = (BankAccount) p;
+                            if (temp.getAccountNumber() == Integer.parseInt(components[4])) {
+                                if (!temp.pay(Double.parseDouble(components[1]))) {
+                                    result.add(new Bill(Integer.parseInt(components[0]),
+                                            Double.parseDouble(components[1]), components[2]));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            sc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (result.size() > 0) {
+            return result;
+        }
         return null;
     }
 

@@ -41,6 +41,10 @@ public class BankAccount implements Payment, Transfer {
         return false;
     }
 
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
     public String toString() {
         return accountNumber + "," + interestRate + "," + balance;
     }
