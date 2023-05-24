@@ -92,7 +92,7 @@ public class TransactionProcessing {
                 result.add(idc);
             }
         }
-        if (result.size() < 0) {
+        if (result.size() > 0) {
             return result;
         }
         return null;
