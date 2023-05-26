@@ -154,6 +154,7 @@ public class TransactionProcessing {
                                 if (!temp.pay(Double.parseDouble(components[1]))) {
                                     result.add(new Bill(Integer.parseInt(components[0]),
                                             Double.parseDouble(components[1]), components[2]));
+                                    break;
                                 }
                             }
                         }
@@ -164,6 +165,7 @@ public class TransactionProcessing {
                                 if (!temp.pay(Double.parseDouble(components[1]))) {
                                     result.add(new Bill(Integer.parseInt(components[0]),
                                             Double.parseDouble(components[1]), components[2]));
+                                    break;
                                 }
                             }
                         }
@@ -174,6 +176,7 @@ public class TransactionProcessing {
                                 if (!temp.pay(Double.parseDouble(components[1]))) {
                                     result.add(new Bill(Integer.parseInt(components[0]),
                                             Double.parseDouble(components[1]), components[2]));
+                                    break;
                                 }
                             }
                         }
