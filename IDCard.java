@@ -28,6 +28,10 @@ public class IDCard {
             return phoneNumber;
       }
 
+      public String getSex() {
+            return sex;
+      }
+
       public String toString() {
             return idenNumber + "," + fullname + "," + sex + "," + birthday + "," + address + "," + phoneNumber;
       }
