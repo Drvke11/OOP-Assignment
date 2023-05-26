@@ -88,7 +88,7 @@ public class TransactionProcessing {
                     }
                 }
             }
-            if (count >= 3) {
+            if (count == 3) {
                 result.add(idc);
             }
         }
