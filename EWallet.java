@@ -2,6 +2,8 @@ public class EWallet implements Payment, Transfer {
 	private int phoneNumber; // 7 numbers by default
 	private double balance;
 
+	// EWallet use phoneNumber in order to initialize
+	// And the phoneNumber is based on ID Card
 	public EWallet(int phoneNumber) {
 		this.phoneNumber = phoneNumber;
 		this.balance = 0;
@@ -39,6 +41,7 @@ public class EWallet implements Payment, Transfer {
 		return false;
 	}
 
+	// Get phoneNumber of the EWallet account
 	public int getPhoneNumber() {
 		return phoneNumber;
 	}

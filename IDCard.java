@@ -15,19 +15,23 @@ public class IDCard {
             this.phoneNumber = phoneNumber;
       }
 
+      // Get age according to birthday on the IDCard
       public int getAge() {
             String[] components = birthday.split("/");
             return 2023 - Integer.parseInt(components[2]);
       }
 
+      // Get identification number on IDCard
       public int getIdenNumber() {
             return idenNumber;
       }
 
+      // Get phone number on IDCard
       public int getPhoneNumber() {
             return phoneNumber;
       }
 
+      // Get sex on the IDCard
       public String getSex() {
             return sex;
       }

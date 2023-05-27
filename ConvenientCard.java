@@ -3,6 +3,7 @@ public class ConvenientCard implements Payment {
 	private IDCard idCard;
 	private double balance;
 
+	// Convenient Card use IDCard in order to initialize
 	public ConvenientCard(IDCard idCard) throws CannotCreateCard {
 		if (idCard.getAge() < 12) {
 			throw new CannotCreateCard("Not enough age");
@@ -15,10 +16,6 @@ public class ConvenientCard implements Payment {
 		}
 		this.idCard = idCard;
 		this.balance = 100;
-	}
-
-	public String getType() {
-		return this.type;
 	}
 
 	public boolean pay(double amount) {
@@ -40,12 +37,18 @@ public class ConvenientCard implements Payment {
 		balance += amount;
 	}
 
+	// Get the entire IDCard information
 	public String getIDCard() {
 		return idCard.toString();
 	}
 
+	// Get identification number on the IDCard
 	public int getIdenNumber() {
 		return idCard.getIdenNumber();
+	}
+
+	public String getType() {
+		return this.type;
 	}
 
 	public String toString() {

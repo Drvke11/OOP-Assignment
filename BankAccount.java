@@ -1,12 +1,12 @@
 public class BankAccount implements Payment, Transfer {
-    private int accountNumber; // 6 numbers by default = idenNumber
+    private int accountNumber; // 6 numbers by default and accountNumber = idenNumber
     private double interestRate;
     private double balance;
 
     public BankAccount(int accountNumber, double interestRate) {
         this.accountNumber = accountNumber;
         this.interestRate = interestRate;
-        this.balance = 50;
+        this.balance = 50; // balance = 50 by default as initialized
     }
 
     public void topUp(double amount) {
@@ -41,6 +41,7 @@ public class BankAccount implements Payment, Transfer {
         return false;
     }
 
+    // Get accountNumber of the BankAccount
     public int getAccountNumber() {
         return accountNumber;
     }
