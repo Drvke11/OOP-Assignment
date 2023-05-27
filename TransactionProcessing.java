@@ -19,6 +19,7 @@ public class TransactionProcessing {
     public boolean readPaymentObject(String path) {
         ArrayList<IDCard> idCardInfo = idcm.getIDCards();
         paymentObjects = new ArrayList<Payment>();
+
         try {
             File f = new File(path);
             Scanner sc = new Scanner(f);
@@ -28,6 +29,7 @@ public class TransactionProcessing {
                     for (IDCard temp : idCardInfo) {
                         if (Integer.parseInt(line) == temp.getIdenNumber()) {
                             paymentObjects.add(new ConvenientCard(temp));
+                            break;
                         }
                     }
                 } else if (line.length() == 7) {
@@ -49,17 +51,17 @@ public class TransactionProcessing {
 
     // Requirement 4
     public ArrayList<ConvenientCard> getAdultConvenientCards() {
-        ArrayList<ConvenientCard> adultType = new ArrayList<ConvenientCard>();
+        ArrayList<ConvenientCard> adultCard = new ArrayList<ConvenientCard>();
         for (Payment temp : paymentObjects) {
             if (temp instanceof ConvenientCard) {
                 ConvenientCard cc = (ConvenientCard) temp;
                 if (cc.getType().equals("Adult")) {
-                    adultType.add(cc);
+                    adultCard.add(cc);
                 }
             }
         }
-        if (adultType.size() > 0) {
-            return adultType;
+        if (adultCard.size() > 0) {
+            return adultCard;
         }
         return null;
     }
@@ -67,7 +69,7 @@ public class TransactionProcessing {
     // Requirement 5
     public ArrayList<IDCard> getCustomersHaveBoth() {
         ArrayList<IDCard> result = new ArrayList<IDCard>();
-        ArrayList<IDCard> idCardInfo = idcm.getIDCards(); // List of IDInfo read from by IDCard.txt
+        ArrayList<IDCard> idCardInfo = idcm.getIDCards();
         for (IDCard idc : idCardInfo) {
             int count = 0;
             for (Payment p : paymentObjects) {
