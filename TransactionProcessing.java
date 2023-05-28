@@ -198,64 +198,75 @@ public class TransactionProcessing {
     // Requirement 8
     public ArrayList<BankAccount> getLargestPaymentByBA(String path) {
         ArrayList<BankAccount> result = new ArrayList<BankAccount>();
-        ArrayList<Integer> bankAccNum = new ArrayList<Integer>();
-        ArrayList<String> data = new ArrayList<String>();
-        ArrayList<Double> amountPaid = new ArrayList<Double>();
+        HashMap<Integer, Double> paymentByBA = new HashMap<Integer, Double>();
         try {
             File f = new File(path);
             Scanner sc = new Scanner(f);
             while (sc.hasNextLine()) {
-                String str = sc.nextLine();
-                String[] components = str.split(",");
-                if (components[3].equals("BA")) {
-                    data.add(components[1] + "," + components[4]);
-                    if (!bankAccNum.contains(Integer.parseInt(components[4]))) {
-                        bankAccNum.add(Integer.parseInt(components[4]));
+                String line = sc.nextLine();
+                String[] components = line.split(",");
+                for (Payment p : paymentObjects) {
+                    if (components[3].equals("CC")) {
+                        if (p instanceof ConvenientCard) {
+                            ConvenientCard temp = (ConvenientCard) p;
+                            if (temp.getIdenNumber() == Integer.parseInt(components[4])) {
+                                temp.pay(Double.parseDouble(components[1]));
+                                break;
+                            }
+                        }
+                    } else if (components[3].equals("EW")) {
+                        if (p instanceof EWallet) {
+                            EWallet temp = (EWallet) p;
+                            if (temp.getPhoneNumber() == Integer.parseInt(components[4])) {
+                                temp.pay(Double.parseDouble(components[1]));
+                                break;
+                            }
+                        }
+                    } else {
+                        if (p instanceof BankAccount) {
+                            BankAccount temp = (BankAccount) p;
+                            if (temp.getAccountNumber() == Integer.parseInt(components[4])) {
+                                if (temp.pay(Double.parseDouble(components[1]))) {
+                                    if (!paymentByBA.containsKey(temp.getAccountNumber())) {
+                                        paymentByBA.put(temp.getAccountNumber(), Double.parseDouble(components[1]));
+                                    } else {
+                                        double amount = paymentByBA.get(temp.getAccountNumber());
+                                        paymentByBA.put(temp.getAccountNumber(),
+                                                amount + Double.parseDouble(components[1]));
+                                    }
+                                } else {
+                                    if (!paymentByBA.containsKey(temp.getAccountNumber())) {
+                                        paymentByBA.put(temp.getAccountNumber(), 0.0);
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            double max = 0;
+            for (Double temp : paymentByBA.values()) {
+                if (temp > max) {
+                    max = temp;
+                }
+            }
+            for (Integer temp : paymentByBA.keySet()) {
+                if (paymentByBA.get(temp) == max) {
+                    for (Payment p : paymentObjects) {
+                        if (p instanceof BankAccount) {
+                            BankAccount ba = (BankAccount) p;
+                            if (ba.getAccountNumber() == temp) {
+                                result.add(ba);
+                                break;
+                            }
+                        }
                     }
                 }
             }
             sc.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        for (Integer ele : bankAccNum) {
-            double total = 0;
-            for (String temp : data) {
-                String[] spl = temp.split(",");
-                if (ele == Integer.parseInt(spl[1])) {
-                    double amount = Double.parseDouble(spl[0]);
-                    for (Payment p : paymentObjects) {
-                        if (p instanceof BankAccount) {
-                            BankAccount ba = (BankAccount) p;
-                            if (ba.getAccountNumber() == ele) {
-                                if (ba.pay(amount)) {
-                                    total += amount;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            amountPaid.add(total);
-        }
-        double max = 0;
-        for (Double ele : amountPaid) {
-            if (ele > max) {
-                max = ele;
-            }
-        }
-        for (int i = 0; i < amountPaid.size(); i++) {
-            if (amountPaid.get(i) == max) {
-                int num = bankAccNum.get(i);
-                for (Payment p : paymentObjects) {
-                    if (p instanceof BankAccount) {
-                        BankAccount ba = (BankAccount) p;
-                        if (ba.getAccountNumber() == num) {
-                            result.add(ba);
-                        }
-                    }
-                }
-            }
         }
         if (result.size() > 0) {
             return result;
