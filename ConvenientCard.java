@@ -1,5 +1,5 @@
 public class ConvenientCard implements Payment {
-	private String type; // 2 types : Adult or Student
+	private String type;
 	private IDCard idCard;
 	private double balance;
 

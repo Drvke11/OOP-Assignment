@@ -156,8 +156,8 @@ public class TransactionProcessing {
                                 if (!temp.pay(Double.parseDouble(components[1]))) {
                                     result.add(new Bill(Integer.parseInt(components[0]),
                                             Double.parseDouble(components[1]), components[2]));
-                                    break;
                                 }
+                                break;
                             }
                         }
                     } else if (components[3].equals("EW")) {
@@ -167,8 +167,8 @@ public class TransactionProcessing {
                                 if (!temp.pay(Double.parseDouble(components[1]))) {
                                     result.add(new Bill(Integer.parseInt(components[0]),
                                             Double.parseDouble(components[1]), components[2]));
-                                    break;
                                 }
+                                break;
                             }
                         }
                     } else {
@@ -178,8 +178,8 @@ public class TransactionProcessing {
                                 if (!temp.pay(Double.parseDouble(components[1]))) {
                                     result.add(new Bill(Integer.parseInt(components[0]),
                                             Double.parseDouble(components[1]), components[2]));
-                                    break;
                                 }
+                                break;
                             }
                         }
                     }
