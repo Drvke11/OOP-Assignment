@@ -283,13 +283,13 @@ public class TransactionProcessing {
                                         if ((temp.getSex().equals("Female") && temp.getAge() < 18)
                                                 || (temp.getSex().equals("Male") && temp.getAge() < 20)) {
                                             ew.pay(Double.parseDouble(components[1]) * 0.85);
-                                            break;
                                         } else {
                                             ew.pay(Double.parseDouble(components[1]));
-                                            break;
                                         }
+                                        break;
                                     }
                                 }
+                                break;
                             }
                         }
                     }
